@@ -1,0 +1,18 @@
+.active-link {
+  color: #005cbb;
+
+}
+
+.active-link mat-icon {
+  color: #005cbb;
+  // border-left: 5px solid;
+  // border-left-color: #005cbb;
+}
+
+.active-link span {
+  color: #005cbb;
+}
+
+.indented {
+  --mat-list-list-item-leading-icon-start-space: 48px;
+}

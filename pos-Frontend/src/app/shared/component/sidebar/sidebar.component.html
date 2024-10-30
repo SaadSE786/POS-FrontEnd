@@ -1,0 +1,9 @@
+<!-- <div class="sidenav-header">
+  <p>Hello World</p>
+</div> -->
+
+<mat-nav-list>
+  @for(item of menuItems(); track item.label){
+  <app-menuitem [item]="item" [collapsed]="sideNavCollapsed()"></app-menuitem>
+  }
+</mat-nav-list>
