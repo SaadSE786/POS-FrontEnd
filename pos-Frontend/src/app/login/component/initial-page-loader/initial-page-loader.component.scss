@@ -1,0 +1,13 @@
+.loader-wrap svg {
+  position: absolute;
+  top: 0;
+  width: 100vw;
+  height: 110vh;
+}
+
+@media (max-width: 767px) {
+  .loader-wrap svg {
+    width: 200vw;
+    margin-left: -50vw;
+  }
+}
