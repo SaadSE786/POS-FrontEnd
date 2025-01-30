@@ -11,6 +11,7 @@ const routes: Routes = [
   { path: 'content', component: ContentComponent },
   { path: 'analytics', component: AnalyticsComponent },
   { path: 'comments', component: CommentComponent },
+  { path: 'setup', loadChildren: () => import('./../setup/setup.module').then(m => m.SetupModule) },
 ];
 
 @NgModule({

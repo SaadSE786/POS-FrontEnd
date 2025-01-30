@@ -22,7 +22,6 @@ export class MenuitemComponent {
   item = input.required<MenuItem>();
   collapsed = input(false);
   nestedItemOpen = signal(false);
-  // routeHistory = input('');
 
   toggleNested() {
     if (!this.item().children) {

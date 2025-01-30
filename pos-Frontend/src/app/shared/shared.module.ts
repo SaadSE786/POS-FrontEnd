@@ -11,6 +11,8 @@ import { AnalyticsComponent } from './temp/analytics/analytics.component';
 import { CommentComponent } from './temp/comment/comment.component';
 import { SharedRoutingModule } from './shared-routing.module';
 import { MenuitemComponent } from './component/menuitem/menuitem.component';
+import { UserProfileComponent } from './component/user-profile/user-profile.component';
+import { ConfirmationDialogueComponent } from './component/confirmation-dialogue/confirmation-dialogue.component';
 
 
 @NgModule({
@@ -22,7 +24,9 @@ import { MenuitemComponent } from './component/menuitem/menuitem.component';
     ContentComponent,
     AnalyticsComponent,
     CommentComponent,
-    MenuitemComponent
+    MenuitemComponent,
+    UserProfileComponent,
+    ConfirmationDialogueComponent
   ],
   exports: [
     SidebarComponent,

@@ -32,6 +32,18 @@ export class SidebarComponent implements OnInit {
       route: 'dashboard'
     },
     {
+      icon: 'display_settings',
+      label: 'Setup',
+      route: 'setup',
+      children: [
+        {
+          icon: 'account_balance',
+          label: 'Chart Of Account',
+          route: 'chartOfAccount'
+        }
+      ]
+    },
+    {
       icon: 'add_shopping_cart',
       label: 'Purchase',
       route: 'content',
@@ -65,11 +77,6 @@ export class SidebarComponent implements OnInit {
           icon: 'description',
           label: 'Purchase Return Report',
           route: 'purchaseReturnReport'
-        },
-        {
-          icon: 'assignment_return',
-          label: 'Purchase Return Voucher',
-          route: 'purchaseReturnVoucher'
         }
       ]
     },

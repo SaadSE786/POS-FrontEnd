@@ -1,17 +1,28 @@
+@use '@angular/material' as mat;
+
+.link {
+  border-left: 5px solid;
+  border-left-color: rgba(0, 0, 0, 0);
+  @include mat.list-overrides((active-indicator-shape : 0px, active-indicator-color: rgba(0, 0, 0, 0.1)));
+}
+
 .active-link {
-  color: #005cbb;
-
+  border-left-color: #005cbb;
+  @include mat.list-overrides((list-item-leading-icon-color: #005cbb,
+      list-item-hover-leading-icon-color: #005cbb,
+      list-item-label-text-color: #005cbb,
+      list-item-hover-label-text-color: #005cbb,
+      list-item-focus-label-text-color: #005cbb))
 }
 
-.active-link mat-icon {
-  color: #005cbb;
-  // border-left: 5px solid;
-  // border-left-color: #005cbb;
-}
+// .active-link mat-icon {
+//   color: #005cbb;
 
-.active-link span {
-  color: #005cbb;
-}
+// }
+
+// .active-link span {
+//   color: #005cbb;
+// }
 
 .indented {
   --mat-list-list-item-leading-icon-start-space: 48px;

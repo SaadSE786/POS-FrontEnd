@@ -1,0 +1,13 @@
+@use '@angular/material' as mat;
+
+mat-card {
+  margin-top: 2rem;
+}
+
+.snackbar-success {
+  // @include mat.snack-bar-overrides(());
+  // background-color: #005cbb !important;
+  // color: #fff !important;
+  --sys-inverse-surface: #005cbb;
+  --sys-inverse-primary: #fff;
+}
