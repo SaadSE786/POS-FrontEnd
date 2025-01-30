@@ -1,0 +1,239 @@
+<h1 class="mat-display-3">
+  Define Chart Of Accounts
+</h1>
+
+<mat-tab-group>
+  <mat-tab label="Level 1">
+    <mat-card appearance="outlined">
+      <mat-card-content>
+        <div class="container">
+          <form [formGroup]="level1Form">
+            <div class="row">
+              <div class="col-md-4">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Level 1 Name</mat-label>
+                  <input matInput placeholder="Level 1 Name" formControlName="level1Name">
+                </mat-form-field>
+              </div>
+              <div class="col-md-2 mt-2">
+                <button type="button" (click)="SaveLevel1()" mat-flat-button
+                  [disabled]="level1Form.invalid">{{btnLevel1}}</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card appearance="outlined">
+      <mat-card-content>
+        <div class="container">
+          <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+            <!-- ID Column -->
+            <ng-container matColumnDef="intLevel1Id">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+              <td mat-cell *matCellDef="let element"> {{ element.intLevel1Id }} </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="varLevel1Name">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+              <td mat-cell *matCellDef="let element"> {{ element.varLevel1Name }} </td>
+            </ng-container>
+
+            <!-- Created By Column -->
+            <ng-container matColumnDef="intCreatedBy">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Created By </th>
+              <td mat-cell *matCellDef="let element"> {{ element.intCreatedBy }} </td>
+            </ng-container>
+
+            <!-- Actions Column -->
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef> Actions </th>
+              <td mat-cell *matCellDef="let element">
+                <button mat-icon-button color="primary" (click)="onEditLevel1(element)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" (click)="onDeleteLevel1(element)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+
+            <!-- Header and Row Definitions -->
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsLevel1"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsLevel1;"></tr>
+          </table>
+        </div>
+        <!-- Paginator -->
+        <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+      </mat-card-content>
+    </mat-card>
+
+  </mat-tab>
+  <mat-tab label="Level 2">
+    <mat-card appearance="outlined">
+      <mat-card-content>
+        <div class="container">
+          <form [formGroup]="level2Form">
+            <div class="row">
+              <div class="col-md-4">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Select Level 1</mat-label>
+                  <mat-select formControlName="level1Id">
+                    <mat-option *ngFor="let level1 of drpLevel1" [value]="level1.intLevel1Id">
+                      {{ level1.varLevel1Name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-md-4">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Level 2 Name</mat-label>
+                  <input matInput placeholder="Level 2 Name" formControlName="level2Name">
+                </mat-form-field>
+              </div>
+
+              <div class="col-md-2 mt-2">
+                <button type="button" mat-flat-button (click)="SaveLevel2()"
+                  [disabled]="level2Form.invalid">{{btnLevel2}}</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card appearance="outlined">
+      <mat-card-content>
+        <div class="container">
+          <table mat-table [dataSource]="dataSource2" class="mat-elevation-z8" matSort>
+            <!-- ID Column -->
+            <ng-container matColumnDef="intLevel2Id">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+              <td mat-cell *matCellDef="let element"> {{ element.intLevel2Id }} </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="varLevel2Name">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+              <td mat-cell *matCellDef="let element"> {{ element.varLevel2Name }} </td>
+            </ng-container>
+
+            <!-- Level 1 Column -->
+            <ng-container matColumnDef="varLevel1Name">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Level 1 </th>
+              <td mat-cell *matCellDef="let element"> {{ element.varLevel1Name }} </td>
+            </ng-container>
+
+            <!-- Created By Column -->
+            <ng-container matColumnDef="intCreatedBy">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Created By </th>
+              <td mat-cell *matCellDef="let element"> {{ element.intCreatedBy }} </td>
+            </ng-container>
+
+            <!-- Actions Column -->
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef> Actions </th>
+              <td mat-cell *matCellDef="let element">
+                <button mat-icon-button color="primary" (click)="onEditLevel2(element)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" (click)="onDeleteLevel2(element)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+
+            <!-- Header and Row Definitions -->
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsLevel2"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsLevel2;"></tr>
+          </table>
+        </div>
+        <!-- Paginator -->
+        <mat-paginator #paginator2 [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+      </mat-card-content>
+    </mat-card>
+  </mat-tab>
+  <mat-tab label="Level 3">
+    <mat-card appearance="outlined">
+      <mat-card-content>
+        <div class="container">
+          <form [formGroup]="level3Form">
+            <div class="row">
+              <div class="col-md-4">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Select Level 2</mat-label>
+                  <mat-select formControlName="level2Id">
+                    <mat-option *ngFor="let level2 of drpLevel2" [value]="level2.intLevel2Id">
+                      {{ level2.varLevel2Name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-md-4">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Level 3 Name</mat-label>
+                  <input matInput placeholder="Level 3 Name" formControlName="level3Name">
+                </mat-form-field>
+              </div>
+
+              <div class="col-md-2 mt-2">
+                <button type="button" mat-flat-button (click)="SaveLevel3()"
+                  [disabled]="level3Form.invalid">{{btnLevel3}}</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card appearance="outlined">
+      <mat-card-content>
+        <div class="container">
+          <table mat-table [dataSource]="dataSource3" class="mat-elevation-z8" matSort>
+            <!-- ID Column -->
+            <ng-container matColumnDef="intLevel3Id">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+              <td mat-cell *matCellDef="let element"> {{ element.intLevel3Id }} </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="varLevel3Name">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+              <td mat-cell *matCellDef="let element"> {{ element.varLevel3Name }} </td>
+            </ng-container>
+
+            <!-- Level 1 Column -->
+            <ng-container matColumnDef="varLevel2Name">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Level 2 </th>
+              <td mat-cell *matCellDef="let element"> {{ element.varLevel2Name }} </td>
+            </ng-container>
+
+            <!-- Created By Column -->
+            <ng-container matColumnDef="intCreatedBy">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Created By </th>
+              <td mat-cell *matCellDef="let element"> {{ element.intCreatedBy }} </td>
+            </ng-container>
+
+            <!-- Actions Column -->
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef> Actions </th>
+              <td mat-cell *matCellDef="let element">
+                <button mat-icon-button color="primary" (click)="onEditLevel3(element)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" (click)="onDeleteLevel3(element)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+
+            <!-- Header and Row Definitions -->
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsLevel3"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsLevel3;"></tr>
+          </table>
+        </div>
+        <!-- Paginator -->
+        <mat-paginator #paginator3 [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+      </mat-card-content>
+    </mat-card>
+  </mat-tab>
+</mat-tab-group>
