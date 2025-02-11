@@ -15,6 +15,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 // import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatMenu, MatMenuModule } from '@angular/material/menu';
 
@@ -24,6 +25,7 @@ import { MatMenu, MatMenuModule } from '@angular/material/menu';
     MatFormFieldModule,
     MatButtonModule,
     MatIconModule,
+    MatSlideToggleModule,
     MatToolbarModule,
     MatSidenavModule,
     MatListModule,

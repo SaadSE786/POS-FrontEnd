@@ -40,6 +40,21 @@ export class SidebarComponent implements OnInit {
           icon: 'account_balance',
           label: 'Chart Of Account',
           route: 'chartOfAccount'
+        },
+        {
+          icon: 'category',
+          label: 'Add Item',
+          route: 'addItem'
+        },
+        {
+          icon: 'warehouse',
+          label: 'Add Warehouse',
+          route: 'addWarehouse'
+        },
+        {
+          icon: 'local_shipping',
+          label: 'Add Transporter',
+          route: 'addTransporter'
         }
       ]
     },

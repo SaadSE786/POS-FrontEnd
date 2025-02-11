@@ -1,0 +1,96 @@
+<h1 class="mat-display-3">
+  Add Transporter
+</h1>
+
+<mat-card appearance="outlined">
+  <mat-card-content>
+    <div class="container">
+      <form [formGroup]="transporterForm">
+        <div class="row">
+          <div class="col-md-4">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Name</mat-label>
+              <input matInput placeholder="Transporter Name" formControlName="varTransporterName">
+            </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Contact</mat-label>
+              <input matInput placeholder="0300-0000000" formControlName="varContactNo">
+            </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Address</mat-label>
+              <input matInput placeholder="Pakistan" formControlName="varAddress">
+            </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Email</mat-label>
+              <input matInput placeholder="john@gmail.com" formControlName="varEmail">
+            </mat-form-field>
+          </div>
+          <div class="col-md-2 w-auto mt-2">
+            <button type="button" (click)="SaveTransporter()" mat-flat-button
+              [disabled]="transporterForm.invalid">{{btnAdd}}</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </mat-card-content>
+</mat-card>
+<mat-card appearance="outlined">
+  <mat-card-content>
+    <div class="container">
+      <table mat-table [dataSource]="datasource" class="mat-elevation-z8" matSort>
+        <!-- ID Column -->
+        <ng-container matColumnDef="intTransporterId">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+          <td mat-cell *matCellDef="let element"> {{ element.intTransporterId }} </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="varTransporterName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+          <td mat-cell *matCellDef="let element"> {{ element.varTransporterName }} </td>
+        </ng-container>
+        <!-- Contact Column -->
+        <ng-container matColumnDef="varContactNo">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Contact No </th>
+          <td mat-cell *matCellDef="let element"> {{ element.varContactNo }} </td>
+        </ng-container>
+        <!-- Address Column -->
+        <ng-container matColumnDef="varAddress">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Address </th>
+          <td mat-cell *matCellDef="let element"> {{ element.varAddress }} </td>
+        </ng-container>
+        <!-- Email Column -->
+        <ng-container matColumnDef="varEmail">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+          <td mat-cell *matCellDef="let element"> {{ element.varEmail }} </td>
+        </ng-container>
+
+
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> Actions </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button color="primary" (click)="onEditTransporter(element)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="onDeleteTransporter(element)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <!-- Header and Row Definitions -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+    <!-- Paginator -->
+    <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  </mat-card-content>
+</mat-card>
