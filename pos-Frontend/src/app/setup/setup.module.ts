@@ -6,11 +6,17 @@ import { MaterialModule } from '../shared/material/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { ChartOfAccountComponent } from './component/chart-of-account/chart-of-account.component';
+import { AddItemComponent } from './component/add-item/add-item.component';
+import { AddWarehouseComponent } from './component/add-warehouse/add-warehouse.component';
+import { AddTransporterComponent } from './component/add-transporter/add-transporter.component';
 
 
 @NgModule({
   declarations: [
-    ChartOfAccountComponent
+    ChartOfAccountComponent,
+    AddItemComponent,
+    AddWarehouseComponent,
+    AddTransporterComponent
   ],
   imports: [
     CommonModule,

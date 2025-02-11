@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, throwError, tap } from 'rxjs';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Level1 } from '../../model/Level1';
 import { Level2 } from '../../model/Level2';
 import { Level3 } from '../../model/Level3';
@@ -13,7 +12,7 @@ import { Level3 } from '../../model/Level3';
 export class ChartOfAccountService {
   private apiUrl = 'https://localhost:44394/api/setup/';
 
-  constructor(private http: HttpClient, private matSnackBar: MatSnackBar) { }
+  constructor(private http: HttpClient) { }
 
   //Level 1 API's
   SaveLevel1(data: Level1): Observable<any> {

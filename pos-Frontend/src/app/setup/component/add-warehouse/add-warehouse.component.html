@@ -1,0 +1,68 @@
+<h1 class="mat-display-3">
+  Define Chart Of Accounts
+</h1>
+
+<mat-card appearance="outlined">
+  <mat-card-content>
+    <div class="container">
+      <form [formGroup]="warehouseForm">
+        <div class="row">
+          <div class="col-md-4">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Warehouse Name</mat-label>
+              <input matInput placeholder="Warehouse Name" formControlName="varWarehouseName">
+            </mat-form-field>
+          </div>
+          <div class="col-md-2 mt-2">
+            <button type="button" (click)="SaveWarehouse()" mat-flat-button
+              [disabled]="warehouseForm.invalid">{{btnAdd}}</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </mat-card-content>
+</mat-card>
+<mat-card appearance="outlined">
+  <mat-card-content>
+    <div class="container">
+      <table mat-table [dataSource]="datasource" class="mat-elevation-z8" matSort>
+        <!-- ID Column -->
+        <ng-container matColumnDef="intWarehouseId">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+          <td mat-cell *matCellDef="let element"> {{ element.intWarehouseId }} </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="varWarehouseName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+          <td mat-cell *matCellDef="let element"> {{ element.varWarehouseName }} </td>
+        </ng-container>
+
+        <!-- Created By Column -->
+        <ng-container matColumnDef="intCreatedBy">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Created By </th>
+          <td mat-cell *matCellDef="let element"> {{ element.intCreatedBy }} </td>
+        </ng-container>
+
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> Actions </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button color="primary" (click)="onEditWarehouse(element)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="onDeleteWarehouse(element)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <!-- Header and Row Definitions -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+    <!-- Paginator -->
+    <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,223 @@
+<h1 class="mat-display-3">
+  {{pageTitle}}
+</h1>
+
+<mat-tab-group #tabGroup (selectedTabChange)="onTabChange($event)">
+  <mat-tab label="Add Items">
+    <form [formGroup]="itemForm">
+      <mat-card appearance="outlined">
+        <mat-card-content>
+          <div class="container">
+            <div class="row">
+              <div class="col-md-3">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Item Name</mat-label>
+                  <input matInput placeholder="Item Name" formControlName="varItemName">
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Order Level</mat-label>
+                  <input matInput formControlName="dcOrderLevel" type="number" inputmode="numeric" pattern="[0-9]*">
+                  <mat-error *ngIf="itemForm.get('dcOrderLevel')?.hasError('negativeValue')">
+                    Order Lvl can't be negative
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Min Level</mat-label>
+                  <input matInput formControlName="dcMinLevel" type="number">
+                  <mat-error *ngIf="itemForm.get('dcMinLevel')?.hasError('negativeValue')">
+                    Min Level cannot be negative
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Max Level</mat-label>
+                  <input matInput formControlName="dcMaxLevel" type="number">
+                  <mat-error *ngIf="itemForm.get('dcMaxLevel')?.hasError('negativeValue')">
+                    Max Level cannot be negative
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row mt-1">
+              <div class="col-md-3">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Opening Stock</mat-label>
+                  <input matInput formControlName="dcOpenStock" type="number">
+                  <mat-error *ngIf="itemForm.get('dcOpenStock')?.hasError('negativeValue')">
+                    Open Stock cannot be negative
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-4">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Open Date</mat-label>
+                  <input matInput formControlName="dtOpenDate" type="date">
+                </mat-form-field>
+              </div>
+              <div class="col-md-4">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Unit Of Measurement</mat-label>
+                  <input matInput formControlName="varUom" placeholder="Unit Of Measurement">
+                </mat-form-field>
+              </div>
+            </div>
+
+          </div>
+        </mat-card-content>
+      </mat-card>
+      <mat-card appearance="outlined">
+        <mat-card-content>
+          <div class="container">
+            <div class="row">
+              <div class="col-md-3">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Cost Price</mat-label>
+                  <input matInput formControlName="dcPurRate" type="number">
+                  <mat-error *ngIf="itemForm.get('dcPurRate')?.hasError('negativeValue')">
+                    Cost Price cannot be negative
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Sell Price</mat-label>
+                  <input matInput formControlName="dcSellRate" type="number">
+                  <mat-error *ngIf="itemForm.get('dcSellRate')?.hasError('negativeValue')">
+                    Sell Price cannot be negative
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Retail Price</mat-label>
+                  <input matInput formControlName="dcRetailSaleRate" type="number">
+                  <mat-error *ngIf="itemForm.get('dcRetailSaleRate')?.hasError('negativeValue')">
+                    Retail Price cannot be negative
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Distributor Price</mat-label>
+                  <input matInput formControlName="dcDistributorSaleRate" type="number">
+                  <mat-error *ngIf="itemForm.get('dcDistributorSaleRate')?.hasError('negativeValue')">
+                    Distributor Price cannot be negative
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+            </div>
+            <div class="row mt-1">
+              <div class="col-md-3">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Discount%</mat-label>
+                  <input matInput formControlName="dcDiscount" type="number">
+                  <mat-error *ngIf="itemForm.get('dcDiscount')?.hasError('discountRange')">
+                    Discount must be between 1 and 100
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-2">
+                <mat-slide-toggle formControlName="isActive" labelPosition="before">IsActive</mat-slide-toggle>
+              </div>
+              <div class="col-md-2">
+                <mat-slide-toggle formControlName="isTaxable" labelPosition="before">IsTaxable</mat-slide-toggle>
+              </div>
+              <div class="col-md-2">
+                <mat-slide-toggle formControlName="isExpirable" labelPosition="before">IsExpirable</mat-slide-toggle>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Expiry Date</mat-label>
+                  <input matInput formControlName="dtExpiryDate" type="date">
+                </mat-form-field>
+              </div>
+              <div class="col-md-2">
+                <button type="button" mat-flat-button variant="warn">Reset</button>
+              </div>
+              <div class="col-md-2 offset-md-8">
+                <button type="button" mat-flat-button [disabled]="itemForm.invalid"
+                  (click)="saveItem()">{{btnItem}}</button>
+              </div>
+            </div>
+
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </form>
+  </mat-tab>
+  <mat-tab label="Item List">
+    <mat-card appearance="outlined">
+      <mat-card-content>
+        <div class="container">
+          <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+            <!-- ID Column -->
+            <ng-container matColumnDef="intItemId">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+              <td mat-cell *matCellDef="let element"> {{ element.intItemId }} </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="varItemName">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+              <td mat-cell *matCellDef="let element"> {{ element.varItemName }} </td>
+            </ng-container>
+            <!-- Purchase Rate Column -->
+            <ng-container matColumnDef="dcPurRate">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Cost Price </th>
+              <td mat-cell *matCellDef="let element"> {{ element.dcPurRate }} </td>
+            </ng-container>
+            <!-- Sell Rate Column -->
+            <ng-container matColumnDef="dcSellRate">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Sell Price </th>
+              <td mat-cell *matCellDef="let element"> {{ element.dcSellRate }} </td>
+            </ng-container>
+            <!-- Status Column -->
+            <ng-container matColumnDef="isActive">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+              <td mat-cell *matCellDef="let element"> <mat-slide-toggle [checked]="element.isActive"
+                  [disabled]="true"></mat-slide-toggle></td>
+            </ng-container>
+            <!-- Expirable Column -->
+            <ng-container matColumnDef="isExpirable">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Expirable </th>
+              <td mat-cell *matCellDef="let element"> <mat-slide-toggle [checked]="element.isExpirable"
+                  [disabled]="true"></mat-slide-toggle></td>
+            </ng-container>
+            <!-- Status Column -->
+            <ng-container matColumnDef="isTaxable">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Taxable </th>
+              <td mat-cell *matCellDef="let element"> <mat-slide-toggle [checked]="element.isTaxable"
+                  [disabled]="true"></mat-slide-toggle></td>
+            </ng-container>
+
+
+            <!-- Actions Column -->
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef> Actions </th>
+              <td mat-cell *matCellDef="let element">
+                <button mat-icon-button color="primary" (click)="onEditItem(element)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" (click)="onDeleteItem(element)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+
+            <!-- Header and Row Definitions -->
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </div>
+        <!-- Paginator -->
+        <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+      </mat-card-content>
+    </mat-card>
+  </mat-tab>
+</mat-tab-group>
