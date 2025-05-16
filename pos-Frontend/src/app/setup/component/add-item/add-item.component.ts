@@ -1,5 +1,10 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  AbstractControl,
+} from '@angular/forms';
 import { MatTabGroup } from '@angular/material/tabs';
 import { Item } from '../../../model/Item';
 import { MatTableDataSource } from '@angular/material/table';
@@ -14,7 +19,7 @@ import { ConfirmationDialogueComponent } from '../../../shared/component/confirm
 @Component({
   selector: 'app-add-item',
   templateUrl: './add-item.component.html',
-  styleUrl: './add-item.component.scss'
+  styleUrl: './add-item.component.scss',
 })
 export class AddItemComponent implements OnInit {
   itemForm!: FormGroup;
@@ -22,10 +27,24 @@ export class AddItemComponent implements OnInit {
   pageTitle: string = 'ADD ITEM';
   item: Item = new Item();
   dataSource = new MatTableDataSource<Item>();
-  displayedColumns: string[] = ['intItemId', 'varItemName', 'dcPurRate', 'dcSellRate', 'isActive', 'isExpirable', 'isTaxable', 'actions'];
+  displayedColumns: string[] = [
+    'intItemId',
+    'varItemName',
+    'dcPurRate',
+    'dcSellRate',
+    'isActive',
+    'isExpirable',
+    'isTaxable',
+    'actions',
+  ];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild('tabGroup') tabGroup!: MatTabGroup;
-  constructor(private fb: FormBuilder, private itemService: ItemService, private snackbar: MatSnackBar, private dialog: MatDialog) {
+  constructor(
+    private fb: FormBuilder,
+    private itemService: ItemService,
+    private snackbar: MatSnackBar,
+    private dialog: MatDialog
+  ) {
     this.dataSource.paginator = this.paginator;
   }
   ngOnInit(): void {
@@ -46,10 +65,10 @@ export class AddItemComponent implements OnInit {
       isExpirable: [false],
       dtExpiryDate: [{ value: null, disabled: true }, Validators.required],
       varUom: [''],
-      isActive: [true]
+      isActive: [true],
     });
 
-    this.itemForm.get('dcOpenStock')?.valueChanges.subscribe(value => {
+    this.itemForm.get('dcOpenStock')?.valueChanges.subscribe((value) => {
       const openDateControl = this.itemForm.get('dtOpenDate');
       if (value > 0) {
         openDateControl?.enable();
@@ -61,7 +80,7 @@ export class AddItemComponent implements OnInit {
       openDateControl?.updateValueAndValidity();
     });
 
-    this.itemForm.get('isExpirable')?.valueChanges.subscribe(value => {
+    this.itemForm.get('isExpirable')?.valueChanges.subscribe((value) => {
       const expiryDateControl = this.itemForm.get('dtExpiryDate');
       if (value) {
         expiryDateControl?.enable();
@@ -74,12 +93,18 @@ export class AddItemComponent implements OnInit {
     });
     this.fetchItems();
   }
-  negativeValueValidator(control: AbstractControl): { [key: string]: boolean } | null {
-    return control.value < 0 ? { 'negativeValue': true } : null;
+  negativeValueValidator(
+    control: AbstractControl
+  ): { [key: string]: boolean } | null {
+    return control.value < 0 ? { negativeValue: true } : null;
   }
 
-  discountRangeValidator(control: AbstractControl): { [key: string]: boolean } | null {
-    return control.value < 0 || control.value > 100 ? { 'discountRange': true } : null;
+  discountRangeValidator(
+    control: AbstractControl
+  ): { [key: string]: boolean } | null {
+    return control.value < 0 || control.value > 100
+      ? { discountRange: true }
+      : null;
   }
   fetchItems(): void {
     this.itemService.GetAllItems().subscribe({
@@ -90,7 +115,12 @@ export class AddItemComponent implements OnInit {
         }
       },
       error: (err) => {
-        this.snackbar.open('Failed to fetch Warehouses', 'Close', { duration: 3000, horizontalPosition: 'center', verticalPosition: 'top', panelClass: ['snackbar-error'] });
+        this.snackbar.open('Failed to fetch Warehouses', 'Close', {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+          panelClass: ['snackbar-error'],
+        });
       },
     });
   }
@@ -107,7 +137,9 @@ export class AddItemComponent implements OnInit {
       this.item.dcPurRate = this.itemForm.get('dcPurRate')?.value;
       this.item.dcSellRate = this.itemForm.get('dcSellRate')?.value;
       this.item.dcRetailSaleRate = this.itemForm.get('dcRetailSaleRate')?.value;
-      this.item.dcDistributorSaleRate = this.itemForm.get('dcDistributorSaleRate')?.value;
+      this.item.dcDistributorSaleRate = this.itemForm.get(
+        'dcDistributorSaleRate'
+      )?.value;
       this.item.dcDiscount = this.itemForm.get('dcDiscount')?.value;
       this.item.isTaxable = this.itemForm.get('isTaxable')?.value;
       this.item.isExpirable = this.itemForm.get('isExpirable')?.value;
@@ -125,7 +157,7 @@ export class AddItemComponent implements OnInit {
                 duration: 1500,
                 horizontalPosition: 'center',
                 verticalPosition: 'top',
-                panelClass: ['snackbar-success']
+                panelClass: ['snackbar-success'],
               });
               this.resetItemForm();
               this.fetchItems();
@@ -137,20 +169,19 @@ export class AddItemComponent implements OnInit {
                 duration: 2500,
                 horizontalPosition: 'center',
                 verticalPosition: 'top',
-                panelClass: ['snackbar-error']
+                panelClass: ['snackbar-error'],
               });
             } else {
               this.snackbar.open('An unexpected error occurred', 'Close', {
                 duration: 2500,
                 horizontalPosition: 'center',
                 verticalPosition: 'top',
-                panelClass: ['snackbar-error']
+                panelClass: ['snackbar-error'],
               });
             }
-          }
+          },
         });
-      }
-      else {
+      } else {
         this.itemService.SaveItem(this.item).subscribe({
           next: (res: any) => {
             if (res.status === 200) {
@@ -158,7 +189,7 @@ export class AddItemComponent implements OnInit {
                 duration: 1500,
                 horizontalPosition: 'center',
                 verticalPosition: 'top',
-                panelClass: ['snackbar-success']
+                panelClass: ['snackbar-success'],
               });
               this.resetItemForm();
               this.fetchItems();
@@ -170,17 +201,17 @@ export class AddItemComponent implements OnInit {
                 duration: 2500,
                 horizontalPosition: 'center',
                 verticalPosition: 'top',
-                panelClass: ['snackbar-error']
+                panelClass: ['snackbar-error'],
               });
             } else {
               this.snackbar.open('An unexpected error occurred', 'Close', {
                 duration: 2500,
                 horizontalPosition: 'center',
                 verticalPosition: 'top',
-                panelClass: ['snackbar-error']
+                panelClass: ['snackbar-error'],
               });
             }
-          }
+          },
         });
       }
     }
@@ -203,7 +234,7 @@ export class AddItemComponent implements OnInit {
       isExpirable: false,
       dtExpiryDate: { value: null, disabled: true },
       varUom: '',
-      isActive: true
+      isActive: true,
     });
     this.itemForm.markAsPristine();
     this.itemForm.markAsUntouched();
@@ -223,9 +254,9 @@ export class AddItemComponent implements OnInit {
   async onDeleteItem(element: Item): Promise<void> {
     const dialogRef = this.dialog.open(ConfirmationDialogueComponent, {
       data: {
-        message: `Are you sure you want to delete this ${element.varItemName} ?`
-      }
-    })
+        message: `Are you sure you want to delete this ${element.varItemName} ?`,
+      },
+    });
     const confirmDelete = await dialogRef.afterClosed().toPromise();
     if (confirmDelete) {
       this.itemService.DeleteItem(element.intItemId).subscribe({
@@ -235,7 +266,7 @@ export class AddItemComponent implements OnInit {
               duration: 1500,
               horizontalPosition: 'center',
               verticalPosition: 'top',
-              panelClass: ['snackbar-success']
+              panelClass: ['snackbar-success'],
             });
             this.fetchItems();
           }
@@ -246,18 +277,18 @@ export class AddItemComponent implements OnInit {
               duration: 2500,
               horizontalPosition: 'center',
               verticalPosition: 'top',
-              panelClass: ['snackbar-error']
+              panelClass: ['snackbar-error'],
             });
           } else {
             this.snackbar.open('An unexpected error occurred', 'Close', {
               duration: 2500,
               horizontalPosition: 'center',
               verticalPosition: 'top',
-              panelClass: ['snackbar-error']
+              panelClass: ['snackbar-error'],
             });
           }
-        }
-      })
+        },
+      });
     }
   }
   onEditItem(element: Item) {
@@ -273,8 +304,6 @@ export class AddItemComponent implements OnInit {
 
     const dtExpiryDate = formatDate(element.dtExpiryDate);
     const dtOpenDate = formatDate(element.dtOpenDate);
-
-    console.log(dtOpenDate + "   " + element.dtOpenDate);
 
     this.itemForm.patchValue({
       intItemId: element.intItemId,
@@ -293,7 +322,7 @@ export class AddItemComponent implements OnInit {
       isExpirable: element.isExpirable,
       dtExpiryDate: dtExpiryDate,
       varUom: element.varUom,
-      isActive: element.isActive
+      isActive: element.isActive,
     });
 
     if (element.dcOpenStock > 0) {

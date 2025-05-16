@@ -13,12 +13,12 @@ export type MenuItem = {
   label: string;
   route?: string;
   children?: MenuItem[];
-}
+};
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.scss']
+  styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent implements OnInit {
   sideNavCollapsed = signal(false);
@@ -29,7 +29,7 @@ export class SidebarComponent implements OnInit {
     {
       icon: 'dashboard',
       label: 'Dashboard',
-      route: 'dashboard'
+      route: 'dashboard',
     },
     {
       icon: 'display_settings',
@@ -39,24 +39,29 @@ export class SidebarComponent implements OnInit {
         {
           icon: 'account_balance',
           label: 'Chart Of Account',
-          route: 'chartOfAccount'
+          route: 'chartOfAccount',
+        },
+        {
+          icon: 'person_add',
+          label: 'Add User',
+          route: 'addUser',
         },
         {
           icon: 'category',
           label: 'Add Item',
-          route: 'addItem'
+          route: 'addItem',
         },
         {
           icon: 'warehouse',
           label: 'Add Warehouse',
-          route: 'addWarehouse'
+          route: 'addWarehouse',
         },
         {
           icon: 'local_shipping',
           label: 'Add Transporter',
-          route: 'addTransporter'
-        }
-      ]
+          route: 'addTransporter',
+        },
+      ],
     },
     {
       icon: 'add_shopping_cart',
@@ -66,47 +71,52 @@ export class SidebarComponent implements OnInit {
         {
           icon: 'receipt_long',
           label: 'Purchase Order Voucher',
-          route: 'purchaseOrderVoucher'
+          route: 'purchaseOrderVoucher',
         },
         {
           icon: 'assignment',
           label: 'Purchase Voucher',
-          route: 'purchaseVoucher'
+          route: 'purchaseVoucher',
         },
         {
           icon: 'assignment_return',
           label: 'Purchase Return Voucher',
-          route: 'purchaseReturnVoucher'
+          route: 'purchaseReturnVoucher',
         },
         {
           icon: 'assessment',
           label: 'Purchase Order Report',
-          route: 'purchaseOrderReport'
+          route: 'purchaseOrderReport',
         },
         {
           icon: 'analytics',
           label: 'Purchase Report',
-          route: 'purchaseReport'
+          route: 'purchaseReport',
         },
         {
           icon: 'description',
           label: 'Purchase Return Report',
-          route: 'purchaseReturnReport'
-        }
-      ]
+          route: 'purchaseReturnReport',
+        },
+      ],
     },
     {
       icon: 'shopping_cart_checkout',
       label: 'Sale',
-      route: 'sale'
+      route: 'sale',
+      children: [
+        {
+          icon: 'assignment',
+          label: 'Sale Voucher',
+          route: 'saleVoucher',
+        },
+      ],
     },
     {
       icon: 'comments',
       label: 'Comments',
-      route: 'comments'
-    }
+      route: 'comments',
+    },
   ]);
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void {}
 }
