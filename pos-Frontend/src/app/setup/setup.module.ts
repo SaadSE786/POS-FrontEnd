@@ -9,6 +9,7 @@ import { ChartOfAccountComponent } from './component/chart-of-account/chart-of-a
 import { AddItemComponent } from './component/add-item/add-item.component';
 import { AddWarehouseComponent } from './component/add-warehouse/add-warehouse.component';
 import { AddTransporterComponent } from './component/add-transporter/add-transporter.component';
+import { AddUserComponent } from './component/add-user/add-user.component';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { AddTransporterComponent } from './component/add-transporter/add-transpo
     ChartOfAccountComponent,
     AddItemComponent,
     AddWarehouseComponent,
-    AddTransporterComponent
+    AddTransporterComponent,
+    AddUserComponent
   ],
   imports: [
     CommonModule,

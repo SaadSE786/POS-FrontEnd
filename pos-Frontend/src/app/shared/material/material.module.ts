@@ -18,6 +18,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 // import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatMenu, MatMenuModule } from '@angular/material/menu';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   exports: [
@@ -35,11 +38,13 @@ import { MatMenu, MatMenuModule } from '@angular/material/menu';
     MatTabsModule,
     MatCardModule,
     MatDialogModule,
+    MatStepperModule,
     // BrowserAnimationsModule,
     MatMenuModule,
     MatPaginatorModule,
-    MatTableModule
-  ]
+    MatTableModule,
+    MatDatepickerModule,
+    MatDividerModule,
+  ],
 })
-export class MaterialModule { }
-
+export class MaterialModule {}

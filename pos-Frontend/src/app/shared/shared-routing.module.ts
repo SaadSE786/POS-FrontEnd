@@ -11,11 +11,20 @@ const routes: Routes = [
   { path: 'content', component: ContentComponent },
   { path: 'analytics', component: AnalyticsComponent },
   { path: 'comments', component: CommentComponent },
-  { path: 'setup', loadChildren: () => import('./../setup/setup.module').then(m => m.SetupModule) },
+  {
+    path: 'setup',
+    loadChildren: () =>
+      import('./../setup/setup.module').then((m) => m.SetupModule),
+  },
+  {
+    path: 'sale',
+    loadChildren: () =>
+      import('./../sale/sale.module').then((m) => m.SaleModule),
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class SharedRoutingModule { }
+export class SharedRoutingModule {}

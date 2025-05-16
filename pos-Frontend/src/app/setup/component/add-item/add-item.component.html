@@ -138,7 +138,7 @@
                 </mat-form-field>
               </div>
               <div class="col-md-2">
-                <button type="button" mat-flat-button variant="warn">Reset</button>
+                <button type="button" (click)="resetItemForm()" mat-flat-button variant="warn">Reset</button>
               </div>
               <div class="col-md-2 offset-md-8">
                 <button type="button" mat-flat-button [disabled]="itemForm.invalid"

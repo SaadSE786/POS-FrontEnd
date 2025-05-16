@@ -1,0 +1,564 @@
+<h1 class="mat-display-3">
+  {{ pageTitle }}
+</h1>
+
+<mat-tab-group #tabGroup (selectedTabChange)="onTabChange($event)">
+  <mat-tab label="Add Items">
+    <mat-horizontal-stepper [linear]="true" #stepper>
+      <!-- Step 1: Add Items -->
+      <mat-step [stepControl]="stockDetailForm">
+        <ng-template matStepLabel>Add Items</ng-template>
+        <mat-card appearance="outlined">
+          <mat-card-content>
+            <form [formGroup]="stockDetailForm">
+              <div class="container">
+                <div class="row">
+                  <div class="col-md-4">
+                    <mat-form-field class="w-100" appearance="outline">
+                      <mat-label>Select Item</mat-label>
+                      <mat-select formControlName="intItemId">
+                        <mat-option
+                          *ngFor="let item of drpItem"
+                          [value]="item.intItemId"
+                        >
+                          {{ item.varItemName }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-2">
+                    <mat-form-field class="w-100" appearance="outline">
+                      <mat-label>Qty</mat-label>
+                      <input
+                        matInput
+                        formControlName="intQuantity"
+                        type="number"
+                        inputmode="numeric"
+                        pattern="[0-9]*"
+                      />
+                      <mat-error
+                        *ngIf="
+                          stockDetailForm
+                            .get('intQuantity')
+                            ?.hasError('negativeValue')
+                        "
+                      >
+                        can't be negative
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-2">
+                    <mat-form-field class="w-100" appearance="outline">
+                      <mat-label>Rate</mat-label>
+                      <input
+                        matInput
+                        formControlName="dcRate"
+                        type="number"
+                        inputmode="numeric"
+                        pattern="[0-9]*"
+                      />
+                      <mat-error
+                        *ngIf="
+                          stockDetailForm
+                            .get('dcRate')
+                            ?.hasError('negativeValue')
+                        "
+                      >
+                        can't be negative
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-2">
+                    <mat-form-field class="w-100" appearance="outline">
+                      <mat-label>Amount</mat-label>
+                      <input
+                        matInput
+                        formControlName="dcAmount"
+                        type="number"
+                        inputmode="numeric"
+                        pattern="[0-9]*"
+                      />
+                      <mat-error
+                        *ngIf="
+                          stockDetailForm
+                            .get('dcAmount')
+                            ?.hasError('negativeValue')
+                        "
+                      >
+                        can't be negative
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-2">
+                    <mat-form-field class="w-100" appearance="outline">
+                      <mat-label>Discount</mat-label>
+                      <input
+                        matInput
+                        formControlName="dcDisc"
+                        type="number"
+                        inputmode="numeric"
+                        pattern="[0-9]*"
+                      />
+                      <mat-error
+                        *ngIf="
+                          stockDetailForm
+                            .get('dcDisc')
+                            ?.hasError('discountRange')
+                        "
+                      >
+                        between 1 and 100
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-2">
+                    <mat-form-field class="w-100" appearance="outline">
+                      <mat-label>Disc. Amount</mat-label>
+                      <input
+                        matInput
+                        formControlName="dcDiscAmount"
+                        type="number"
+                        inputmode="numeric"
+                        pattern="[0-9]*"
+                      />
+                      <mat-error
+                        *ngIf="
+                          stockDetailForm
+                            .get('dcDiscAmount')
+                            ?.hasError('negativeValue')
+                        "
+                      >
+                        can't be negative
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-2">
+                    <mat-form-field class="w-100" appearance="outline">
+                      <mat-label>Net Amount</mat-label>
+                      <input
+                        matInput
+                        formControlName="dcInclTaxAmount"
+                        type="number"
+                        inputmode="numeric"
+                        pattern="[0-9]*"
+                      />
+                      <mat-error
+                        *ngIf="
+                          stockDetailForm
+                            .get('dcInclTaxAmount')
+                            ?.hasError('negativeValue')
+                        "
+                      >
+                        Net Amount can't be negative
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-2 mt-2">
+                    <button
+                      mat-stroked-button
+                      color="primary"
+                      type="button"
+                      (click)="addItem()"
+                    >
+                      {{ btnAdd }}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </mat-card-content>
+          <mat-divider></mat-divider>
+          <div class="container mt-2">
+            <div class="container">
+              <table
+                mat-table
+                [dataSource]="dataSource"
+                class="mat-elevation-z8"
+                matSort
+              >
+                <!-- ID Column -->
+                <ng-container matColumnDef="intItemId">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.intItemId }}
+                  </td>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="varItemName">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Item Name
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.varItemName }}
+                  </td>
+                </ng-container>
+                <!-- Purchase Rate Column -->
+                <ng-container matColumnDef="intQuantity">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Qty</th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.intQuantity }}
+                  </td>
+                </ng-container>
+                <!-- Sell Rate Column -->
+                <ng-container matColumnDef="dcRate">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Rate
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.dcRate }}
+                  </td>
+                </ng-container>
+                <!-- Status Column -->
+                <ng-container matColumnDef="dcAmount">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Amount
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.dcAmount }}
+                  </td>
+                </ng-container>
+                <!-- Expirable Column -->
+                <ng-container matColumnDef="dcDisc">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Discount
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.dcDisc }}
+                  </td>
+                </ng-container>
+                <!-- Status Column -->
+                <ng-container matColumnDef="dcDiscAmount">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Disc. Amount
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.dcDiscAmount }}
+                  </td>
+                </ng-container>
+                <!-- Status Column -->
+                <ng-container matColumnDef="dcInclTaxAmount">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Net Amount
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.dcInclTaxAmount }}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="dcPurRate">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Pur Rate
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.dcPurRate }}
+                  </td>
+                </ng-container>
+
+                <!-- Actions Column -->
+                <ng-container matColumnDef="actions">
+                  <th mat-header-cell *matHeaderCellDef>Actions</th>
+                  <td mat-cell *matCellDef="let row; let i = index">
+                    <!-- <button mat-button (click)="editItem(i)">Edit</button>
+                    <button mat-button color="warn" (click)="deleteItem(i)">
+                      Delete
+                    </button> -->
+                    <button
+                      mat-icon-button
+                      color="primary"
+                      (click)="editItem(i)"
+                    >
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                    <button
+                      mat-icon-button
+                      color="warn"
+                      (click)="deleteItem(i)"
+                    >
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </td>
+                </ng-container>
+
+                <!-- Header and Row Definitions -->
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr
+                  mat-row
+                  *matRowDef="let row; columns: displayedColumns"
+                ></tr>
+              </table>
+            </div>
+            <mat-paginator
+              [pageSize]="5"
+              [pageSizeOptions]="[5, 10, 20]"
+              showFirstLastButtons
+            ></mat-paginator>
+          </div>
+        </mat-card>
+        <div class="mt-2">
+          <button
+            type="button"
+            mat-raised-button
+            color="primary"
+            matStepperNext
+          >
+            Next
+          </button>
+        </div>
+      </mat-step>
+
+      <!-- Step 2: Customer Info -->
+      <mat-step [stepControl]="saleForm">
+        <form [formGroup]="saleForm">
+          <ng-template matStepLabel>Customer Info</ng-template>
+          <mat-card appearance="outlined">
+            <mat-card-content>
+              <div class="container">
+                <div class="row">
+                  <div class="col-md-3">
+                    <mat-form-field class="w-100" appearance="outline">
+                      <mat-label>VRNO</mat-label>
+                      <input matInput formControlName="intVrno" type="number" />
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-3">
+                    <mat-form-field class="w-100" appearance="outline">
+                      <mat-label>VRNOA</mat-label>
+                      <input
+                        matInput
+                        formControlName="intVrnoA"
+                        type="number"
+                      />
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-3">
+                    <mat-form-field class="w-100" appearance="outline">
+                      <mat-label>Voucher Date</mat-label>
+                      <input matInput formControlName="dtVrDate" type="date" />
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-3">
+                    <mat-form-field class="w-100" appearance="outline">
+                      <mat-label>Remarks</mat-label>
+                      <input
+                        matInput
+                        formControlName="varRemarks"
+                        type="text"
+                      />
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+          <div class="mt-2">
+            <button
+              type="button"
+              mat-raised-button
+              color="accent"
+              matStepperPrevious
+            >
+              Back
+            </button>
+            <button
+              type="button"
+              mat-raised-button
+              color="primary"
+              matStepperNext
+            >
+              Next
+            </button>
+          </div>
+        </form>
+      </mat-step>
+
+      <!-- Step 3: Discount & Net Amount -->
+      <mat-step [stepControl]="saleForm">
+        <form [formGroup]="saleForm">
+          <ng-template matStepLabel>Disc. and Net Amount</ng-template>
+          <mat-card appearance="outlined">
+            <mat-card-content>
+              <div class="container">
+                <div class="row">
+                  <div class="col-md-3">
+                    <mat-form-field class="w-100" appearance="outline">
+                      <mat-label>Total Amount</mat-label>
+                      <input
+                        matInput
+                        formControlName="dcTotalAmount"
+                        type="number"
+                      />
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-3">
+                    <mat-form-field class="w-100" appearance="outline">
+                      <mat-label>Discount</mat-label>
+                      <input
+                        matInput
+                        formControlName="dcDiscount"
+                        type="number"
+                      />
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-3">
+                    <mat-form-field class="w-100" appearance="outline">
+                      <mat-label>Disc. Amount</mat-label>
+                      <input
+                        matInput
+                        formControlName="dcDiscountAmount"
+                        type="number"
+                      />
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-3">
+                    <mat-form-field class="w-100" appearance="outline">
+                      <mat-label>Expense</mat-label>
+                      <input
+                        matInput
+                        formControlName="dcExpense"
+                        type="number"
+                      />
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-3">
+                    <mat-form-field class="w-100" appearance="outline">
+                      <mat-label>Additional Charges</mat-label>
+                      <input
+                        matInput
+                        formControlName="dcAdditionalCharges"
+                        type="number"
+                      />
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-3">
+                    <mat-form-field class="w-100" appearance="outline">
+                      <mat-label>Net Amount</mat-label>
+                      <input
+                        matInput
+                        formControlName="dcNetAmount"
+                        type="number"
+                      />
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+          <div class="mt-2">
+            <button
+              type="button"
+              mat-raised-button
+              color="accent"
+              matStepperPrevious
+            >
+              Back
+            </button>
+            <button
+              mat-raised-button
+              color="primary"
+              type="button"
+              (click)="saveVoucher()"
+            >
+              {{ btnSave }}
+            </button>
+          </div>
+        </form>
+      </mat-step>
+    </mat-horizontal-stepper>
+  </mat-tab>
+  <mat-tab label="Item List">
+    <mat-card appearance="outlined">
+      <mat-card-content>
+        <mat-form-field appearance="outline" class="w-100 mb-2">
+          <mat-label>Search Voucher</mat-label>
+          <input
+            matInput
+            (keyup)="applyFilter($event)"
+            placeholder="Search by VRNO or Remarks"
+          />
+        </mat-form-field>
+        <table
+          mat-table
+          [dataSource]="voucherListDataSource"
+          class="mat-elevation-z8"
+          matSort
+        >
+          <ng-container matColumnDef="intVrno">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>VRNO</th>
+            <td mat-cell *matCellDef="let element">{{ element.intVrno }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="intVrnoA">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>VRNOA</th>
+            <td mat-cell *matCellDef="let element">{{ element.intVrnoA }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="dtVrDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.dtVrDate | date : "shortDate" }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="totalAmount">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Total</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.dcTotalAmount }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="dcDiscountAmount">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Disc. Amount
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.dcDiscountAmount }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="dcNetAmount">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Net Amount
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.dcNetAmount }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let element">
+              <button
+                mat-icon-button
+                color="primary"
+                (click)="onEditVoucher(element)"
+              >
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button
+                mat-icon-button
+                color="warn"
+                (click)="onDeleteVoucher(element.intStid)"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr
+            mat-header-row
+            *matHeaderRowDef="voucherListDisplayedColumns"
+          ></tr>
+          <tr
+            mat-row
+            *matRowDef="let row; columns: voucherListDisplayedColumns"
+          ></tr>
+        </table>
+        <!-- Paginator -->
+        <mat-paginator
+          [pageSize]="5"
+          [pageSizeOptions]="[5, 10, 20]"
+          showFirstLastButtons
+        ></mat-paginator>
+      </mat-card-content>
+    </mat-card>
+  </mat-tab>
+</mat-tab-group>
