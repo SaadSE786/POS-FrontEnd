@@ -1,5 +1,5 @@
 export class Level2 {
-  intLevel2Id: number = 0;
+  intLevel2Id?: number = 0;
   varLevel2Name: string = '';
   intLevel1Id: number = 0;
   intCreatedBy: number = 0;

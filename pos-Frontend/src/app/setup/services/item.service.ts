@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Item } from '../../model/Item';
 import { tap, Observable, catchError, throwError, of } from 'rxjs';
+import { environment } from '../../../environment/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ItemService {
   // private apiUrl = 'https://localhost:44394/api/setup/';
-  private apiUrl = '/api/setup/';
+  private apiUrl = environment.apiUrl + '/setup/';
   private itemCache: Item[] | null = null;
   constructor(private http: HttpClient) {}
   SaveItem(data: Item): Observable<any> {

@@ -48,16 +48,16 @@ export class ChartOfAccountComponent implements OnInit {
   constructor(private fb: FormBuilder, private snackbar: MatSnackBar, private chartOfAccountService: ChartOfAccountService, private dialog: MatDialog) { }
   ngOnInit(): void {
     this.level1Form = this.fb.group({
-      level1Id: [''],
+      level1Id: [0],
       level1Name: ['', Validators.required]
     });
     this.level2Form = this.fb.group({
-      level2Id: [''],
+      level2Id: [0],
       level2Name: ['', Validators.required],
-      level1Id: ['', Validators.required]
+      level1Id: [0, Validators.required]
     });
     this.level3Form = this.fb.group({
-      level3Id: [''],
+      level3Id: [0],
       level3Name: ['', Validators.required],
       level2Id: ['', Validators.required]
     });
@@ -69,6 +69,8 @@ export class ChartOfAccountComponent implements OnInit {
   fetchLevel1s(): void {
     this.chartOfAccountService.GetAllLevel1().subscribe({
       next: (res) => {
+        debugger;
+        console.log(res);
         if (res.status === 200) {
           this.dataSource = new MatTableDataSource(res.levels);
           this.drpLevel1 = res.levels;
@@ -205,7 +207,7 @@ export class ChartOfAccountComponent implements OnInit {
   }
   resetLevel1Form() {
     this.level1Form.reset({
-      level1Id: '',
+      level1Id: 0,
       level1Name: ''
     });
     this.level1Form.markAsPristine();
@@ -358,9 +360,9 @@ export class ChartOfAccountComponent implements OnInit {
   }
   resetLevel2Form() {
     this.level2Form.reset({
-      level2Id: '',
+      level2Id: 0,
       level2Name: '',
-      level1Id: ''
+      level1Id: 0
     });
     this.level2Form.markAsPristine();
     this.level2Form.markAsUntouched();
@@ -507,9 +509,9 @@ export class ChartOfAccountComponent implements OnInit {
   }
   resetLevel3Form() {
     this.level3Form.reset({
-      level3Id: '',
+      level3Id: 0,
       level3Name: '',
-      level2Id: ''
+      level2Id: 0
     });
     this.level3Form.markAsPristine();
     this.level3Form.markAsUntouched();

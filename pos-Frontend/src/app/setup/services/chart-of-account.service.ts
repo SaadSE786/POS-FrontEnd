@@ -4,18 +4,20 @@ import { Observable, catchError, throwError, tap } from 'rxjs';
 import { Level1 } from '../../model/Level1';
 import { Level2 } from '../../model/Level2';
 import { Level3 } from '../../model/Level3';
+import { environment } from '../../../environment/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChartOfAccountService {
   // private apiUrl = 'https://localhost:44394/api/setup/';
-  private apiUrl = '/api/setup/';
+  private apiUrl = environment.apiUrl + '/setup/';
 
   constructor(private http: HttpClient) {}
 
   //Level 1 API's
   SaveLevel1(data: Level1): Observable<any> {
+    console.log('Sending data:', data);
     return this.http.post<any>(this.apiUrl + 'addLevel1', data).pipe(
       tap((res: any) => {}),
       catchError((error) => {
@@ -33,7 +35,7 @@ export class ChartOfAccountService {
       })
     );
   }
-  DeleteLevel1(level1Id: number): Observable<any> {
+  DeleteLevel1(level1Id?: number): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}deleteLevel1/${level1Id}`).pipe(
       tap((res: any) => {}),
       catchError((error) => {
@@ -72,7 +74,7 @@ export class ChartOfAccountService {
     );
   }
 
-  DeleteLevel2(level2Id: number): Observable<any> {
+  DeleteLevel2(level2Id?: number): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}deleteLevel2/${level2Id}`).pipe(
       tap((res: any) => {}),
       catchError((error) => {
@@ -110,7 +112,7 @@ export class ChartOfAccountService {
     );
   }
 
-  DeleteLevel3(level3Id: number): Observable<any> {
+  DeleteLevel3(level3Id?: number): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}deleteLevel3/${level3Id}`).pipe(
       tap((res: any) => {}),
       catchError((error) => {

@@ -18,5 +18,5 @@ export class StockMain {
   dtUpdationDate?: Date;
   intCreatedBy?: number;
   intUpdatedBy?: number;
-  StockDetails?: StockDetail[];
+  stockDetails?: StockDetail[];
 }

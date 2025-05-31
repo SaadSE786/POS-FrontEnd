@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap, catchError, throwError } from 'rxjs';
 import { Warehouse } from '../../model/Warehouse';
+import { environment } from '../../../environment/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class WarehouseService {
   // private apiUrl = 'https://localhost:44394/api/setup/';
-  private apiUrl = '/api/setup/';
+  private apiUrl = environment.apiUrl + '/setup/';
   constructor(private http: HttpClient) {}
   GetAllWarehouse(): Observable<any> {
     return this.http.get<any>(this.apiUrl + 'getWarehouse').pipe(

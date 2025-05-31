@@ -1,5 +1,5 @@
 export class User {
-  intUserId: number = 0;
+  intUserId?: number = 0;
   varName: string = '';
   varEmail: string = '';
   varAddress: string = '';

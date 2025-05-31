@@ -23,7 +23,7 @@ export class AddWarehouseComponent implements OnInit {
   constructor(private fb: FormBuilder, private warehouseService: WarehouseService, private snackbar: MatSnackBar, private dialog: MatDialog) { }
   ngOnInit(): void {
     this.warehouseForm = this.fb.group({
-      intWarehouseId: [null],
+      intWarehouseId: [0],
       varWarehouseName: ['', Validators.required]
     });
     this.fetchWarehouse();
@@ -67,7 +67,7 @@ export class AddWarehouseComponent implements OnInit {
           next: (res) => {
             if (res.status === 200) {
               this.snackbar.open(res.message, 'Close', { duration: 3000, horizontalPosition: 'center', verticalPosition: 'top', panelClass: ['snackbar-success'] });
-              this.warehouseForm.reset();
+              this.resetWarehouseForm();
               this.fetchWarehouse();
             }
           },
@@ -127,7 +127,7 @@ export class AddWarehouseComponent implements OnInit {
   }
   resetWarehouseForm() {
     this.warehouseForm.reset({
-      intWarehouseId: null,
+      intWarehouseId: 0,
       varWarehouse: ''
     });
     this.btnAdd = 'Add Warehouse';

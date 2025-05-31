@@ -49,7 +49,7 @@ export class AddItemComponent implements OnInit {
   }
   ngOnInit(): void {
     this.itemForm = this.fb.group({
-      intItemId: [null],
+      intItemId: [0],
       varItemName: ['', Validators.required],
       dcOrderLevel: [null, this.negativeValueValidator],
       dcMinLevel: [null, this.negativeValueValidator],
@@ -219,7 +219,8 @@ export class AddItemComponent implements OnInit {
 
   resetItemForm() {
     this.itemForm.reset({
-      varItemName: '',
+      intItemId: 0,
+      varItemName: null,
       dcOrderLevel: null,
       dcMinLevel: null,
       dcMaxLevel: null,
@@ -239,6 +240,7 @@ export class AddItemComponent implements OnInit {
     this.itemForm.markAsPristine();
     this.itemForm.markAsUntouched();
     this.itemForm.updateValueAndValidity();
+    this.btnItem = 'SAVE ITEM';
   }
   onTabChange(event: MatTabChangeEvent): void {
     switch (event.index) {

@@ -23,7 +23,7 @@ export class AddTransporterComponent implements OnInit {
   constructor(private fb: FormBuilder, private transporterService: TransporterService, private snackbar: MatSnackBar, private dialog: MatDialog) { }
   ngOnInit(): void {
     this.transporterForm = this.fb.group({
-      intTransporterId: [''],
+      intTransporterId: [0],
       varTransporterName: ['', Validators.required],
       varContactNo: ['', Validators.required],
       varAddress: ['', Validators.required],
@@ -120,7 +120,7 @@ export class AddTransporterComponent implements OnInit {
 
   resetTransporterForm() {
     this.transporterForm.reset({
-      intTransporterId: '',
+      intTransporterId: 0,
       varTransporterName: '',
       varContactNo: '',
       varAddress: '',

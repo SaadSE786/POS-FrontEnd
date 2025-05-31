@@ -43,7 +43,7 @@ export class AddUserComponent implements OnInit {
 
   ngOnInit(): void {
     this.userForm = this.fb.group({
-      intUserId: [null],
+      intUserId: [0],
       varName: ['', Validators.required],
       varEmail: ['', Validators.required],
       varAddress: [''],
@@ -189,7 +189,7 @@ export class AddUserComponent implements OnInit {
   }
   resetUserForm() {
     this.userForm.reset({
-      intUserId: null,
+      intUserId: 0,
       varName: '',
       varEmail: '',
       varAddress: '',

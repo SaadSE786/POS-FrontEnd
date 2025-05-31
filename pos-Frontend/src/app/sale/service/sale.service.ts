@@ -2,18 +2,18 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, throwError, tap } from 'rxjs';
 import { StockMain } from '../../model/StockMain';
+import { environment } from '../../../environment/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SaleService {
-  private apiUrl = '/api/sale/';
+  private apiUrl = environment.apiUrl + '/sale/';
   // private apiUrl = 'https://localhost:44394/api/sale/';
   constructor(private http: HttpClient) {}
   POSVRNOS(vrdate: string): Observable<any> {
     return this.http.post<any>(this.apiUrl + 'posvrnos', { date: vrdate }).pipe(
       tap((res: any) => {
-        console.log('POSVRNOS response:', res);
       }),
       catchError((error) => {
         console.error('Error occurred:', error);
@@ -47,7 +47,6 @@ export class SaleService {
   GetAllVouchers(): Observable<StockMain[]> {
     return this.http.get<StockMain[]>(this.apiUrl + 'getSales').pipe(
       tap((res: any) => {
-        console.log('Fetched vouchers:', res);
       }),
       catchError(this.handleError)
     );

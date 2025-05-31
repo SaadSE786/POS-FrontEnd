@@ -91,6 +91,7 @@ export class SaleVoucherComponent implements OnInit {
     this.fetchItems();
     this.getVRNOs();
     this.stockDetailForm.valueChanges.subscribe((values) => {
+      debugger;
       const itemId = values.intItemId;
       if (itemId) {
         const selectedItem = this.drpItem.find(
@@ -144,7 +145,6 @@ export class SaleVoucherComponent implements OnInit {
           this.saleForm.get('dcAdditionalCharges')?.value || 0;
         const netAmount =
           totalAmount + expenses + additionalCharges - discountAmount;
-        console.log('Net Amount in discount : ' + netAmount);
         this.saleForm.patchValue({
           dcDiscountAmount: discountAmount,
           dcNetAmount: netAmount,
@@ -185,7 +185,6 @@ export class SaleVoucherComponent implements OnInit {
       next: (res) => {
         if (res.status === 200) {
           this.vrnos = res.data;
-          console.log('VRNOs:', this.vrnos);
           this.saleForm.patchValue({
             intVrno: res.data[0],
             intVrnoA: res.data[1],
@@ -212,8 +211,8 @@ export class SaleVoucherComponent implements OnInit {
 
   initForm(): void {
     this.stockDetailForm = this.fb.group({
-      intStid: [null],
-      intItemId: [null],
+      intStid: [0],
+      intItemId: [0],
       varItemName: [''],
       intQuantity: [0, [this.negativeValueValidator]],
       dcRate: [0, this.negativeValueValidator],
@@ -228,9 +227,9 @@ export class SaleVoucherComponent implements OnInit {
       dcPurRate: [0, this.negativeValueValidator],
     });
     this.saleForm = this.fb.group({
-      intStid: [null],
-      intVrno: ['', Validators.required],
-      intVrnoA: ['', Validators.required],
+      intStid: [0],
+      intVrno: [0, Validators.required],
+      intVrnoA: [0, Validators.required],
       dtVrDate: [this.formatDate(new Date()), Validators.required],
       varRemarks: [''],
       varVrType: ['Cash_Sale'],
@@ -287,7 +286,7 @@ export class SaleVoucherComponent implements OnInit {
   }
   computeNetAmount(totalAmount: number): number {
     const discountAmount = this.saleForm.get('dcDiscountAmount')?.value || 0;
-    console.log('Discount Amount in computeAmount : ' + discountAmount); // method to get base total
+    
     const expenses = this.saleForm.get('dcExpense')?.value || 0;
     const additionalCharges =
       this.saleForm.get('dcAdditionalCharges')?.value || 0;
@@ -502,24 +501,54 @@ export class SaleVoucherComponent implements OnInit {
   }
 
   resetForm(): void {
-    this.saleForm.reset();
-    this.stockDetailForm.reset();
+    this.saleForm.reset({
+      intVrno: this.vrnos[0] || 0,
+      intVrnoA: this.vrnos[1] || 0,
+      dtVrDate: this.formatDate(new Date()),
+      varRemarks: '',
+      varVrType: 'Cash_Sale',
+      dcDiscount: 0,
+      dcExpense: 0,
+      dcAdditionalCharges: 0,
+      dcTotalAmount: 0,
+      dcNetAmount: 0,
+    });
+    this.stockDetailForm.reset({
+      intStid: 0,
+      intItemId: 0,
+      varItemName: '',
+      intQuantity: 0,
+      dcRate: 0,
+      dcAmount: 0,
+      dcDisc: 0,
+      dcDiscAmount: 0,
+      dcInclTaxAmount: 0,
+      varType: '',
+      dcPurRate: 0,
+    });
+    this.saleForm.markAsPristine();
+    this.saleForm.markAsUntouched();
+    this.saleForm.updateValueAndValidity();
+    this.stockDetailForm.markAsPristine();
+    this.stockDetailForm.markAsUntouched();
+    this.stockDetailForm.updateValueAndValidity();
     this.stockDetailList = [];
     this.dataSource.data = [];
     this.editIndex = null;
     this.btnSave = 'Save Sale';
     this.btnAdd = 'Add';
-    this.initForm(); // reinitialize with default values
+    // this.initForm(); // reinitialize with default values
     this.getVRNOs(); // reload VRNOs
   }
 
   onEditVoucher(main: StockMain): void {
+    console.log(main);
     this.saleForm.patchValue({
       ...main,
       dtVrDate: this.formatDate(main.dtVrDate ?? new Date()),
     });
 
-    this.stockDetailList = main.StockDetails || [];
+    this.stockDetailList = main.stockDetails || [];
     this.dataSource.data = [...this.stockDetailList];
     this.btnSave = 'Update Sale';
     this.tabGroup.selectedIndex = 0;
