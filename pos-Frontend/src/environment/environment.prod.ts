@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiBaseUrl: 'https://yourproductionapi.com/api' // your production API
+  apiBaseUrl: 'https://pos-api-51d324978f27.herokuapp.com/api', // your production API
 };

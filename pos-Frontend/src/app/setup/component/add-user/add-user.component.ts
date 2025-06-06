@@ -17,8 +17,8 @@ import { ConfirmationDialogueComponent } from '../../../shared/component/confirm
 })
 export class AddUserComponent implements OnInit {
   userForm!: FormGroup;
-  btnItem: string = 'SAVE ITEM';
-  pageTitle: string = 'ADD ITEM';
+  btnItem: string = 'SAVE USER';
+  pageTitle: string = 'ADD USER';
   hidePassword = true;
   user: User = new User();
   dataSource = new MatTableDataSource<User>();
