@@ -21,7 +21,7 @@ export class SaleService {
       })
     );
   }
-
+  //Saves the sale voucher
   SaveSale(data: StockMain): Observable<any> {
     return this.http.post<any>(this.apiUrl + 'addSale', data).pipe(
       tap(() => {}),
