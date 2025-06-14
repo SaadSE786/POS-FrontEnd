@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, PLATFORM_ID, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Inject, PLATFORM_ID, ElementRef, ViewChild, AfterViewInit, Output, EventEmitter } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { gsap } from 'gsap';
 
@@ -13,6 +13,9 @@ export class InitialPageLoaderComponent implements OnInit, AfterViewInit {
   @ViewChild('svgPath', { static: true }) svgPath!: ElementRef;
   @ViewChild('loaderWrap', { static: true }) loaderWrap!: ElementRef;
   @ViewChild('container', { static: true }) container!: ElementRef;
+
+  @Output() animationComplete = new EventEmitter<void>();
+  @Output() readyToDestroy = new EventEmitter<void>();
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) { }
 
@@ -36,6 +39,14 @@ export class InitialPageLoaderComponent implements OnInit, AfterViewInit {
             opacity: 1,
             onComplete: () => {
               this.container.nativeElement.style.visibility = "visible";
+              
+              // Emit that animation is complete
+              this.animationComplete.emit();
+              
+              // Wait a bit then emit ready to destroy
+              setTimeout(() => {
+                this.readyToDestroy.emit();
+              }, 500); // Adjust delay as needed
             }
           })
         },
@@ -54,7 +65,6 @@ export class InitialPageLoaderComponent implements OnInit, AfterViewInit {
         attr: { d: flat },
         ease: "power2.easeOut",
         fill: "#B0BEC5",
-
       });
 
       tl.to(this.loaderWrap.nativeElement, {

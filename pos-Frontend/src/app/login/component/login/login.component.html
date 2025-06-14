@@ -1,12 +1,17 @@
-<div class="container d-flex justify-content-center align-items-center min-vh-80">
+<div class="container d-flex justify-content-center align-items-center vh-100">
   <div class="card p-4 login-card">
-    <h3 class="text-center mb-4">Login</h3>
+    <h3 class="text-center mb-4 title">Login</h3>
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <!-- Email Field -->
       <mat-form-field appearance="outline" class="w-100 mb-3">
         <mat-label>Email</mat-label>
-        <input matInput placeholder="Enter your email" formControlName="email" type="email" />
-        <mat-icon matPrefix>person</mat-icon>
+        <input
+          matInput
+          placeholder="Enter your email"
+          formControlName="email"
+          type="email"
+        />
+        <mat-icon matPrefix color="primary">person</mat-icon>
         <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
           Email is required
         </mat-error>
@@ -16,24 +21,70 @@
       </mat-form-field>
 
       <!-- Password Field -->
-      <mat-form-field appearance="outline" class="w-100 mb-4">
+      <mat-form-field class="w-100" appearance="outline">
         <mat-label>Password</mat-label>
-        <mat-icon matPrefix>password</mat-icon>
-        <input matInput [type]="hidePassword ? 'password' : 'text'" placeholder="Enter your password"
-          formControlName="password" />
-        <button mat-icon-button matSuffix style="margin-bottom: 5px;" (click)="togglePasswordVisibility()" type="button"
-          aria-label="Toggle password visibility">
-          <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+        <input
+          matInput
+          placeholder="Password"
+          formControlName="password"
+          [type]="hidePassword ? 'password' : 'text'"
+        />
+        <mat-icon matPrefix color="primary">password</mat-icon>
+        <button
+          mat-icon-button
+          type="button"
+          matSuffix
+          (click)="togglePasswordVisibility()"
+          [attr.aria-label]="'Toggle password visibility'"
+        >
+          <mat-icon>{{
+            hidePassword ? "visibility_off" : "visibility"
+          }}</mat-icon>
         </button>
         <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
           Password is required
         </mat-error>
+        <mat-error *ngIf="loginForm.get('password')?.hasError('minlength')">
+          Please enter at least 6 characters
+        </mat-error>
       </mat-form-field>
 
       <!-- Login Button -->
-      <button mat-raised-button color="primary" type="submit" class="w-100" [disabled]="loginForm.invalid">
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        class="w-100"
+        id="loginButton"
+        [disabled]="loginForm.invalid"
+      >
         Login
       </button>
     </form>
+    <mat-divider class="my-4"></mat-divider>
+    <button
+      mat-stroked-button
+      color="primary"
+      class="w-100"
+      id="googleLoginButton"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 488 512"
+        class="googleIcon"
+      >
+        <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+        <path
+          d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"
+        />
+      </svg>
+      Sign in with Google
+    </button>
+    <div class="signup-section mt-4">
+      <span>Don't have an account?</span>
+      <button mat-button color="primary" routerLink="/auth/signup">
+        Sign up
+      </button>
+    </div>
   </div>
 </div>

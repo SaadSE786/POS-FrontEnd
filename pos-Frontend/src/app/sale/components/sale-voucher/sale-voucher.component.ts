@@ -187,7 +187,7 @@ export class SaleVoucherComponent implements OnInit {
           this.vrnos = res.data;
           this.saleForm.patchValue({
             intVrno: res.data[0],
-            intVrnoA: res.data[1],
+            intVrnoA: res.data[1]
           });
         }
       },
@@ -286,7 +286,7 @@ export class SaleVoucherComponent implements OnInit {
   }
   computeNetAmount(totalAmount: number): number {
     const discountAmount = this.saleForm.get('dcDiscountAmount')?.value || 0;
-    
+
     const expenses = this.saleForm.get('dcExpense')?.value || 0;
     const additionalCharges =
       this.saleForm.get('dcAdditionalCharges')?.value || 0;

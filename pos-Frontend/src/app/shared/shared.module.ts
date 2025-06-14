@@ -13,6 +13,7 @@ import { SharedRoutingModule } from './shared-routing.module';
 import { MenuitemComponent } from './component/menuitem/menuitem.component';
 import { UserProfileComponent } from './component/user-profile/user-profile.component';
 import { ConfirmationDialogueComponent } from './component/confirmation-dialogue/confirmation-dialogue.component';
+import { InitialPageLoaderComponent } from './component/initial-page-loader/initial-page-loader.component';
 
 
 @NgModule({
@@ -26,11 +27,13 @@ import { ConfirmationDialogueComponent } from './component/confirmation-dialogue
     CommentComponent,
     MenuitemComponent,
     UserProfileComponent,
-    ConfirmationDialogueComponent
+    ConfirmationDialogueComponent,
+    InitialPageLoaderComponent
   ],
   exports: [
     SidebarComponent,
-    ToolbarComponent
+    ToolbarComponent,
+    InitialPageLoaderComponent,
   ],
   imports: [
     CommonModule,

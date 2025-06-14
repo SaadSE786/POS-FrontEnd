@@ -1,3 +1,11 @@
-<!-- <app-initial-page-loader></app-initial-page-loader> -->
-<app-toolbar></app-toolbar>
-<router-outlet></router-outlet>
+@if (showLoader) {
+<app-initial-page-loader
+  (animationComplete)="onAnimationComplete()"
+  (readyToDestroy)="onReadyToDestroy()"
+>
+</app-initial-page-loader>
+} @if (showMainContent) {
+<div class="main-content">
+  <router-outlet></router-outlet>
+</div>
+}

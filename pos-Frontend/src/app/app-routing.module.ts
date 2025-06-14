@@ -3,6 +3,11 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
+    path: 'auth',
+    loadChildren: () =>
+      import('./../app/login/login.module').then((m) => m.LoginModule),
+  },
+  {
     path: 'setup',
     loadChildren: () =>
       import('./../app/setup/setup.module').then((m) => m.SetupModule),
@@ -12,8 +17,8 @@ const routes: Routes = [
     loadChildren: () =>
       import('./../app/sale/sale.module').then((m) => m.SaleModule),
   },
-  { path: '', redirectTo: 'setup', pathMatch: 'full' }, // default route
-  { path: '**', redirectTo: 'setup' }, // wildcard for 404s
+  { path: '', redirectTo: 'auth', pathMatch: 'full' }, 
+  { path: '**', redirectTo: 'auth' },
 ];
 
 @NgModule({
