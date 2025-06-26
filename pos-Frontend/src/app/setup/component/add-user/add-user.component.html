@@ -1,5 +1,5 @@
 <h1 class="mat-display-3">
-  {{pageTitle}}
+  {{ pageTitle }}
 </h1>
 
 <mat-tab-group #tabGroup (selectedTabChange)="onTabChange($event)">
@@ -12,13 +12,21 @@
               <div class="col-md-3">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Name</mat-label>
-                  <input matInput placeholder="Name" formControlName="varName">
+                  <input
+                    matInput
+                    placeholder="Name"
+                    formControlName="varName"
+                  />
                 </mat-form-field>
               </div>
               <div class="col-md-3">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Email/UserName</mat-label>
-                  <input matInput placeholder="Email" formControlName="varEmail">
+                  <input
+                    matInput
+                    placeholder="Email"
+                    formControlName="varEmail"
+                  />
                 </mat-form-field>
               </div>
               <div class="col-md-3">
@@ -37,26 +45,40 @@
                     (click)="togglePasswordVisibility()"
                     [attr.aria-label]="'Toggle password visibility'"
                   >
-                    <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+                    <mat-icon>{{
+                      hidePassword ? "visibility_off" : "visibility"
+                    }}</mat-icon>
                   </button>
                 </mat-form-field>
               </div>
               <div class="col-md-3">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Address</mat-label>
-                  <input matInput placeholder="Address" formControlName="varAddress">
+                  <input
+                    matInput
+                    placeholder="Address"
+                    formControlName="varAddress"
+                  />
                 </mat-form-field>
               </div>
               <div class="col-md-3">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>CNIC</mat-label>
-                  <input matInput placeholder="CNIC" formControlName="varCnic">
+                  <input
+                    matInput
+                    placeholder="CNIC"
+                    formControlName="varCnic"
+                  />
                 </mat-form-field>
               </div>
               <div class="col-md-3">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Contact</mat-label>
-                  <input matInput placeholder="Contact" formControlName="varContactNo">
+                  <input
+                    matInput
+                    placeholder="Contact"
+                    formControlName="varContactNo"
+                  />
                 </mat-form-field>
               </div>
               <div class="col-md-3">
@@ -64,40 +86,77 @@
                   <!-- Avatar with uploaded image or default -->
                   <div class="position-relative">
                     <img
-                      *ngIf="userForm.get('varPhoto')?.value; else defaultAvatar"
-                      [src]="'data:image/jpeg;base64,' + userForm.get('varPhoto')?.value"
+                      *ngIf="
+                        userForm.get('varPhoto')?.value;
+                        else defaultAvatar
+                      "
+                      [src]="
+                        'data:image/jpeg;base64,' +
+                        userForm.get('varPhoto')?.value
+                      "
                       alt="User Photo"
                       class="avatar-img"
                     />
                     <ng-template #defaultAvatar>
-                      <mat-icon class="avatar-img avatar-default">person</mat-icon>
+                      <mat-icon class="avatar-img avatar-default"
+                        >person</mat-icon
+                      >
                     </ng-template>
-              
+
                     <!-- X button to remove -->
-                    <button  type="button" mat-icon-button color="warn" class="remove-btn" (click)="removeImage()">
+                    <button
+                      type="button"
+                      mat-icon-button
+                      color="warn"
+                      class="remove-btn"
+                      (click)="removeImage()"
+                    >
                       <mat-icon>close</mat-icon>
                     </button>
                   </div>
-              
+
                   <!-- Upload input -->
-                  <input type="file" accept="image/*" (change)="onImageSelected($event)" hidden #fileInput>
-              
+                  <input
+                    type="file"
+                    accept="image/*"
+                    (change)="onImageSelected($event)"
+                    hidden
+                    #fileInput
+                  />
+
                   <!-- Upload button -->
-                  <button mat-stroked-button color="primary" type="button" (click)="fileInput.click()" style="margin-top:10px;">
+                  <button
+                    mat-stroked-button
+                    color="primary"
+                    type="button"
+                    (click)="fileInput.click()"
+                    style="margin-top: 10px"
+                  >
                     Upload Photo
                   </button>
                 </div>
               </div>
-              
-              
             </div>
             <div class="row">
               <div class="col-md-2">
-                <button type="button" (click)="resetUserForm()" mat-flat-button variant="warn">Reset</button>
+                <button
+                  type="button"
+                  (click)="resetUserForm()"
+                  mat-flat-button
+                  variant="warn"
+                >
+                  Reset
+                </button>
               </div>
-              <div class="col-md-2 offset-md-8" >
-                <button type="button" mat-flat-button [disabled]="userForm.invalid"
-                  (click)="saveUser()" >{{btnItem}}</button>
+              <div class="col-md-2 offset-md-8">
+                <button
+                  type="button"
+                  mat-flat-button
+                  [disabled]="userForm.invalid"
+                  (click)="saveUser()"
+                >
+                  {{ btnItem }}
+                </button>
               </div>
             </div>
           </div>
@@ -109,34 +168,43 @@
     <mat-card appearance="outlined">
       <mat-card-content>
         <div class="container">
-          <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+          <table
+            mat-table
+            [dataSource]="dataSource"
+            class="mat-elevation-z8"
+            matSort
+          >
             <!-- ID Column -->
             <ng-container matColumnDef="intUserId">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
-              <td mat-cell *matCellDef="let element"> {{ element.intUserId }} </td>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.intUserId }}
+              </td>
             </ng-container>
 
             <!-- Name Column -->
             <ng-container matColumnDef="varName">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-              <td mat-cell *matCellDef="let element"> {{ element.varName }} </td>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+              <td mat-cell *matCellDef="let element">{{ element.varName }}</td>
             </ng-container>
             <!-- Purchase Rate Column -->
             <ng-container matColumnDef="varEmail">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
-              <td mat-cell *matCellDef="let element"> {{ element.varEmail }} </td>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+              <td mat-cell *matCellDef="let element">{{ element.varEmail }}</td>
             </ng-container>
             <!-- Sell Rate Column -->
-            <ng-container matColumnDef="varPassword">
+            <!-- <ng-container matColumnDef="varPassword">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> Password </th>
               <td mat-cell *matCellDef="let element"> 
                 {{ maskPassword(element.varPassword) }} 
               </td>
-            </ng-container>
+            </ng-container> -->
             <!-- Sell Rate Column -->
             <ng-container matColumnDef="varContactNo">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header> Contact </th>
-              <td mat-cell *matCellDef="let element"> {{ element.varContactNo }} </td>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Contact</th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.varContactNo }}
+              </td>
             </ng-container>
             <!-- Status Column
             <ng-container matColumnDef="isActive">
@@ -146,12 +214,20 @@
             </ng-container> -->
             <!-- Actions Column -->
             <ng-container matColumnDef="actions">
-              <th mat-header-cell *matHeaderCellDef> Actions </th>
+              <th mat-header-cell *matHeaderCellDef>Actions</th>
               <td mat-cell *matCellDef="let element">
-                <button mat-icon-button color="primary" (click)="onEditUser(element)" >
+                <button
+                  mat-icon-button
+                  color="primary"
+                  (click)="onEditUser(element)"
+                >
                   <mat-icon>edit</mat-icon>
                 </button>
-                <button mat-icon-button color="warn" (click)="onDeleteItem(element)" >
+                <button
+                  mat-icon-button
+                  color="warn"
+                  (click)="onDeleteItem(element)"
+                >
                   <mat-icon>delete</mat-icon>
                 </button>
               </td>
@@ -159,11 +235,15 @@
 
             <!-- Header and Row Definitions -->
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
           </table>
         </div>
         <!-- Paginator -->
-        <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+        <mat-paginator
+          [pageSize]="5"
+          [pageSizeOptions]="[5, 10, 20]"
+          showFirstLastButtons
+        ></mat-paginator>
       </mat-card-content>
     </mat-card>
   </mat-tab>

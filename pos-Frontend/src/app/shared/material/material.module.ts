@@ -16,6 +16,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 // import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatMenu, MatMenuModule } from '@angular/material/menu';
 import { MatStepperModule } from '@angular/material/stepper';
@@ -43,6 +44,7 @@ import { MatDividerModule } from '@angular/material/divider';
     MatMenuModule,
     MatPaginatorModule,
     MatTableModule,
+    MatProgressSpinnerModule,
     MatDatepickerModule,
     MatDividerModule,
   ],

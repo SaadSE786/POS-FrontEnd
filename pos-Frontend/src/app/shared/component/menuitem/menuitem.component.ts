@@ -10,13 +10,13 @@ import { transition, trigger, style, animate } from '@angular/animations';
     trigger('expandContractMenu', [
       transition(':enter', [
         style({ opacity: 0, height: '0px' }),
-        animate('500ms ease-in-out', style({ opacity: 1, height: '*' }))
+        animate('500ms ease-in-out', style({ opacity: 1, height: '*' })),
       ]),
       transition(':leave', [
-        animate('500ms ease-in-out', style({ opacity: 0, height: '0px' }))
-      ])
-    ])
-  ]
+        animate('500ms ease-in-out', style({ opacity: 0, height: '0px' })),
+      ]),
+    ]),
+  ],
 })
 export class MenuitemComponent {
   item = input.required<MenuItem>();
@@ -24,9 +24,9 @@ export class MenuitemComponent {
   nestedItemOpen = signal(false);
 
   toggleNested() {
-    if (!this.item().children) {
-      return;
+    if (this.item()?.children) {
+      this.nestedItemOpen.set(!this.nestedItemOpen());
     }
-    this.nestedItemOpen.set(!this.nestedItemOpen());
+    // this.nestedItemOpen.set(!this.nestedItemOpen());
   }
 }

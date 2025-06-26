@@ -26,7 +26,6 @@ export class AddUserComponent implements OnInit {
     'intUserId',
     'varName',
     'varEmail',
-    'varPassword',
     'varContactNo',
     'actions',
   ];
