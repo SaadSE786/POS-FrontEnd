@@ -33,4 +33,7 @@ h3 {
         supporting-text-color: #fff,
         button-color: #fff));
   }
+  @include mat.progress-spinner-overrides((
+    active-indicator-color: #fff
+  ));
 }

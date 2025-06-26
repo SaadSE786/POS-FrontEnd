@@ -1,8 +1,16 @@
 <mat-menu #userprofile="matMenu">
   <button mat-menu-item>Profile</button>
-  <button mat-menu-item>Logout</button>
+  <button mat-menu-item (click)="logout()">Logout</button>
 </mat-menu>
 
-<button mat-icon-button class="userAvatarButton" [matMenuTriggerFor]="userprofile">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png" alt="" class="userAvatar">
+<button
+  mat-icon-button
+  class="userAvatarButton"
+  [matMenuTriggerFor]="userprofile"
+>
+  <img
+    src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png"
+    alt=""
+    class="userAvatar"
+  />
 </button>

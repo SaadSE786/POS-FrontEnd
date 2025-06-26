@@ -63,43 +63,43 @@ export class SidebarComponent implements OnInit {
         },
       ],
     },
-    {
-      icon: 'add_shopping_cart',
-      label: 'Purchase',
-      route: 'content',
-      children: [
-        {
-          icon: 'receipt_long',
-          label: 'Purchase Order Voucher',
-          route: 'purchaseOrderVoucher',
-        },
-        {
-          icon: 'assignment',
-          label: 'Purchase Voucher',
-          route: 'purchaseVoucher',
-        },
-        {
-          icon: 'assignment_return',
-          label: 'Purchase Return Voucher',
-          route: 'purchaseReturnVoucher',
-        },
-        {
-          icon: 'assessment',
-          label: 'Purchase Order Report',
-          route: 'purchaseOrderReport',
-        },
-        {
-          icon: 'analytics',
-          label: 'Purchase Report',
-          route: 'purchaseReport',
-        },
-        {
-          icon: 'description',
-          label: 'Purchase Return Report',
-          route: 'purchaseReturnReport',
-        },
-      ],
-    },
+    // {
+    //   icon: 'add_shopping_cart',
+    //   label: 'Purchase',
+    //   route: 'content',
+    //   children: [
+    //     {
+    //       icon: 'receipt_long',
+    //       label: 'Purchase Order Voucher',
+    //       route: 'purchaseOrderVoucher',
+    //     },
+    //     {
+    //       icon: 'assignment',
+    //       label: 'Purchase Voucher',
+    //       route: 'purchaseVoucher',
+    //     },
+    //     {
+    //       icon: 'assignment_return',
+    //       label: 'Purchase Return Voucher',
+    //       route: 'purchaseReturnVoucher',
+    //     },
+    //     {
+    //       icon: 'assessment',
+    //       label: 'Purchase Order Report',
+    //       route: 'purchaseOrderReport',
+    //     },
+    //     {
+    //       icon: 'analytics',
+    //       label: 'Purchase Report',
+    //       route: 'purchaseReport',
+    //     },
+    //     {
+    //       icon: 'description',
+    //       label: 'Purchase Return Report',
+    //       route: 'purchaseReturnReport',
+    //     },
+    //   ],
+    // },
     {
       icon: 'shopping_cart_checkout',
       label: 'Sale',
@@ -111,11 +111,6 @@ export class SidebarComponent implements OnInit {
           route: 'saleVoucher',
         },
       ],
-    },
-    {
-      icon: 'comments',
-      label: 'Comments',
-      route: 'comments',
     },
   ]);
   ngOnInit(): void {}

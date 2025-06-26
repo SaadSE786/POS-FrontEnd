@@ -1,11 +1,17 @@
-@if (showLoader) {
+@if (shouldShowLoader()) {
 <app-initial-page-loader
-  (animationComplete)="onAnimationComplete()"
   (readyToDestroy)="onReadyToDestroy()"
->
-</app-initial-page-loader>
-} @if (showMainContent) {
-<div class="main-content">
+></app-initial-page-loader>
+}
+
+<!-- Dashboard Layout (for authenticated users) -->
+@if (shouldShowDashboard()) {
+<app-toolbar></app-toolbar>
+}
+
+<!-- Auth Layout (for non-authenticated users, no loader) -->
+@if (shouldShowAuth()) {
+<div class="auth-layout">
   <router-outlet></router-outlet>
 </div>
 }
