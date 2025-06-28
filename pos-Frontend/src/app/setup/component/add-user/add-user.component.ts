@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, signal } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
@@ -22,6 +22,7 @@ export class AddUserComponent implements OnInit {
   hidePassword = true;
   user: User = new User();
   dataSource = new MatTableDataSource<User>();
+  editMode = signal(false);
   displayedColumns: string[] = [
     'intUserId',
     'varName',
@@ -112,7 +113,9 @@ export class AddUserComponent implements OnInit {
       this.user.intUserId = this.userForm.get('intUserId')?.value;
       this.user.varName = this.userForm.get('varName')?.value;
       this.user.varEmail = this.userForm.get('varEmail')?.value;
-      this.user.varPassword = this.userForm.get('varPassword')?.value;
+      if (!this.editMode()) {
+        this.user.varPassword = this.userForm.get('varPassword')?.value;
+      }
       this.user.varAddress = this.userForm.get('varAddress')?.value;
       this.user.varContactNo = this.userForm.get('varContactNo')?.value;
       this.user.varCnic = this.userForm.get('varCnic')?.value;
@@ -129,6 +132,7 @@ export class AddUserComponent implements OnInit {
                 verticalPosition: 'top',
                 panelClass: ['snackbar-success'],
               });
+              this.editMode.set(false);
               this.resetUserForm();
               this.fetchUser();
             }
@@ -201,8 +205,10 @@ export class AddUserComponent implements OnInit {
     this.userForm.markAsUntouched();
     this.userForm.updateValueAndValidity();
     this.btnItem = 'SAVE ITEM';
+    this.editMode.set(false);
   }
   onEditUser(element: User) {
+    debugger;
     this.btnItem = 'UPDATE';
 
     this.userForm.patchValue({
@@ -216,6 +222,7 @@ export class AddUserComponent implements OnInit {
       varPhoto: element.varPhoto,
     });
     this.tabGroup.selectedIndex = 0;
+    this.editMode.set(true);
   }
   async onDeleteItem(element: User): Promise<void> {
     const dialogRef = this.dialog.open(ConfirmationDialogueComponent, {

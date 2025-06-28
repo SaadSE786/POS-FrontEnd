@@ -5,56 +5,70 @@ import {
   ViewChildren,
   QueryList,
   computed,
+  inject,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ForgotPassword } from '../../../model/ForgotPassword';
+import { LoginService } from '../../services/login.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { VerificationCode } from '../../../model/VerificationCode';
+import { ResetPassword } from '../../../model/ResetPassword';
 
 @Component({
   selector: 'app-forget-password',
   templateUrl: './forget-password.component.html',
   styleUrl: './forget-password.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ForgetPasswordComponent {
   @ViewChildren('codeInput') codeInputs!: QueryList<ElementRef>;
-  // Signals for reactive state
-  isLoading = signal(false);
-  emailSent = signal(false);
-  submittedEmail = signal('');
-  codeVerified = signal(false);
-  verificationCode = signal(['', '', '', '']);
-  hideNewPassword = signal(true);
-  hideConfirmPassword = signal(true);
-  passwordResetComplete = signal(false);
 
-  // Computed signal for form validation
-  isCodeComplete = computed(() => {
+  // Modern dependency injection
+  private readonly fb = inject(FormBuilder);
+  private readonly router = inject(Router);
+  private readonly loginService = inject(LoginService);
+  private readonly snackBar = inject(MatSnackBar);
+
+  // Signals for reactive state management
+  protected readonly isLoading = signal(false);
+  protected readonly emailSent = signal(false);
+  protected readonly submittedEmail = signal('');
+  protected readonly codeVerified = signal(false);
+  protected readonly verificationCode = signal(['', '', '', '']);
+  protected readonly hideNewPassword = signal(true);
+  protected readonly hideConfirmPassword = signal(true);
+  protected readonly passwordResetComplete = signal(false);
+  protected readonly userId = signal<number | null>(null);
+  protected readonly errorMessage = signal('');
+
+  // Computed signals for derived state
+  protected readonly isCodeComplete = computed(() => {
     return this.verificationCode().every((digit) => digit !== '');
   });
 
-  forgotPasswordForm: FormGroup;
-  passwordResetForm: FormGroup;
+  // Forms with modern initialization
+  protected readonly forgotPasswordForm: FormGroup = this.fb.group({
+    email: ['', [Validators.required, Validators.email]],
+  });
 
-  constructor(private fb: FormBuilder, private router: Router) {
-    this.forgotPasswordForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-    });
-    this.passwordResetForm = this.fb.group(
-      {
-        newPassword: [
-          '',
-          [
-            Validators.required,
-            Validators.minLength(8),
-            Validators.pattern(
-              /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/
-            ),
-          ],
+  protected readonly passwordResetForm: FormGroup = this.fb.group(
+    {
+      newPassword: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(8),
+          Validators.pattern(
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/
+          ),
         ],
-        confirmPassword: ['', [Validators.required]],
-      },
-      { validators: this.passwordMatchValidator }
-    );
-  }
+      ],
+      confirmPassword: ['', [Validators.required]],
+    },
+    { validators: this.passwordMatchValidator.bind(this) }
+  );
   passwordMatchValidator(form: FormGroup) {
     const newPassword = form.get('newPassword')?.value;
     const confirmPassword = form.get('confirmPassword')?.value;
@@ -70,17 +84,45 @@ export class ForgetPasswordComponent {
   onSubmit(): void {
     if (this.forgotPasswordForm.valid) {
       this.isLoading.set(true);
+      this.errorMessage.set('');
+
       const email = this.forgotPasswordForm.value.email;
+      const forgotPasswordRequest = new ForgotPassword();
+      forgotPasswordRequest.email = email;
 
-      // Simulate API call
-      setTimeout(() => {
-        this.submittedEmail.set(email);
-        this.emailSent.set(true);
-        this.isLoading.set(false);
+      this.loginService.forgotPassword(forgotPasswordRequest).subscribe({
+        next: (response) => {
+          if (response.status === 200) {
+            this.snackBar.open(
+              `Email has been sent successfully to ${response.verificationCode.user.varEmail}`,
+              'Close',
+              {
+                duration: 3000,
+                horizontalPosition: 'center',
+                verticalPosition: 'top',
+                panelClass: ['snackbar-success'],
+              }
+            );
 
-        // Here you would call your forgot password service
-        // this.authService.forgotPassword(email).subscribe({...});
-      }, 2000);
+            // Store user ID for later use in password reset
+            this.userId.set(response.verificationCode.user.intUserId);
+            this.submittedEmail.set(response.verificationCode.user.varEmail);
+            this.emailSent.set(true);
+          }
+          this.isLoading.set(false);
+        },
+        error: (error) => {
+          console.error('Error occurred during forgot password:', error);
+          this.isLoading.set(false);
+          this.errorMessage.set(
+            error.error?.message || 'Failed to send verification email'
+          );
+          this.snackBar.open(this.errorMessage(), 'Close', {
+            duration: 5000,
+            panelClass: ['snackbar-error'],
+          });
+        },
+      });
     }
   }
 
@@ -149,7 +191,6 @@ export class ForgetPasswordComponent {
       const digits = pastedData.split('');
       this.verificationCode.set(digits);
 
-      // Update input values
       setTimeout(() => {
         this.codeInputs.forEach((input, index) => {
           input.nativeElement.value = digits[index];
@@ -173,18 +214,36 @@ export class ForgetPasswordComponent {
     if (code.length === 4) {
       this.isLoading.set(true);
 
-      // Simulate API call for code verification
-      setTimeout(() => {
-        this.isLoading.set(false);
+      const verificationRequest = new VerificationCode();
+      verificationRequest.code = code;
+      verificationRequest.email = this.submittedEmail(); // Include email for verification
 
-        // For demo purposes, accept any 4-digit code
-        // In real app, you'd call your verification service
-        this.codeVerified.set(true);
-
-        // Redirect to reset password page or show success
-        console.log('Code verified:', code);
-        // this.router.navigate(['/auth/reset-password'], { queryParams: { token: 'verified' } });
-      }, 1500);
+      this.loginService.verifyCode(verificationRequest).subscribe({
+        next: (response) => {
+          this.isLoading.set(false);
+          this.snackBar.open('Verification code is correct!', 'Close', {
+            duration: 1000,
+            horizontalPosition: 'center',
+            verticalPosition: 'top',
+            panelClass: ['snackbar-success'],
+          });
+          this.codeVerified.set(true);
+        },
+        error: (error) => {
+          this.isLoading.set(false);
+          this.snackBar.open(
+            'Invalid verification code. Please try again.',
+            'Close',
+            {
+              duration: 3000,
+              horizontalPosition: 'center',
+              verticalPosition: 'top',
+              panelClass: ['snackbar-error'],
+            }
+          );
+          this.clearCode();
+        },
+      });
     }
   }
 
@@ -216,33 +275,62 @@ export class ForgetPasswordComponent {
     this.hideConfirmPassword.set(!this.hideConfirmPassword());
   }
   onPasswordReset(): void {
-    if (this.passwordResetForm.valid) {
+    if (this.passwordResetForm.valid && this.userId()) {
       this.isLoading.set(true);
-      const { newPassword } = this.passwordResetForm.value;
 
-      // Simulate API call for password reset
-      setTimeout(() => {
-        this.isLoading.set(false);
-        this.passwordResetComplete.set(true);
+      const resetPasswordRequest = new ResetPassword();
+      resetPasswordRequest.newPassword =
+        this.passwordResetForm.value.newPassword;
+      resetPasswordRequest.userId = this.userId()!;
 
-        // Redirect to login after showing success message
-        setTimeout(() => {
-          this.router.navigate(['/auth/signin']);
-        }, 3000);
+      console.log('Reset Password Request:', resetPasswordRequest);
 
-        // In real app, you'd call your password reset service
-        // this.authService.resetPassword(newPassword, token).subscribe({
-        //   next: () => {
-        //     this.passwordResetComplete.set(true);
-        //     setTimeout(() => {
-        //       this.router.navigate(['/auth/signin']);
-        //     }, 3000);
-        //   },
-        //   error: (error) => {
-        //     console.error('Password reset failed:', error);
-        //   }
-        // });
-      }, 2000);
+      this.loginService.resetPassword(resetPasswordRequest).subscribe({
+        next: (response) => {
+          if (response.status === 200) {
+            this.snackBar.open(
+              'Password reset successfully. Redirecting to login...',
+              'Close',
+              {
+                duration: 3000,
+                horizontalPosition: 'center',
+                verticalPosition: 'top',
+                panelClass: ['snackbar-success'],
+              }
+            );
+            this.isLoading.set(false);
+            this.passwordResetComplete.set(true);
+
+            // Redirect to login after a short delay
+            setTimeout(() => {
+              this.router.navigate(['/auth/signin']);
+            }, 2000);
+          }
+        },
+        error: (error) => {
+          console.error('Password reset error:', error);
+          this.snackBar.open(
+            error.error?.message || 'Password reset failed. Please try again.',
+            'Close',
+            {
+              duration: 3000,
+              horizontalPosition: 'center',
+              verticalPosition: 'top',
+              panelClass: ['snackbar-error'],
+            }
+          );
+          this.isLoading.set(false);
+        },
+      });
+    } else {
+      this.snackBar.open(
+        'Please fill in all required fields correctly.',
+        'Close',
+        {
+          duration: 3000,
+          panelClass: ['snackbar-error'],
+        }
+      );
     }
   }
 
